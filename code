@@ -1,0 +1,57 @@
+
+// Format: {Merah, Kuning, Hijau}
+int utara[]   = {11, 12, 13};
+int timur[]   = {8, 9, 10};
+int selatan[] = {5, 6, 7};
+int barat[]   = {2, 3, 4};
+
+void setup() {
+  // Setel semua pin 2 sampai 13 sebagai OUTPUT
+  for (int i = 2; i <= 13; i++) {
+    pinMode(i, OUTPUT);
+    digitalWrite(i, LOW); 
+  }
+  
+  // Kondisi awal: Semua lampu MERAH menyala
+  digitalWrite(11, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(2, HIGH);
+}
+
+// Fungsi dengan Hijau Berkedip
+void siklusJalan(int merah, int kuning, int hijau) {
+  // 1. HIJAU: Matikan Merah, Nyalakan Hijau Statis selama 5 detik
+  digitalWrite(merah, LOW);
+  digitalWrite(hijau, HIGH);
+  delay(5000); 
+
+  // 2. HIJAU BERKEDIP: Kedip 3 kali sebelum pindah ke Kuning
+  for(int k = 0; k < 3; k++) {
+    digitalWrite(hijau, LOW);
+    delay(300); 
+    digitalWrite(hijau, HIGH);
+    delay(300);
+  }
+  // Matikan hijau setelah kedip selesai
+  digitalWrite(hijau, LOW);
+
+  // 3. KUNING: Menyala selama 2 detik
+  digitalWrite(kuning, HIGH);
+  delay(2000); 
+  digitalWrite(kuning, LOW);
+
+  // 4. MERAH: Nyalakan Merah kembali
+  digitalWrite(merah, HIGH);
+  
+  // Jeda All-Red agar aman (Semua sisi merah)
+  delay(1000);
+}
+
+void loop() {
+  // Urutan jalan per arah mata angin
+  siklusJalan(utara[0], utara[1], utara[2]);
+  siklusJalan(timur[0], timur[1], timur[2]);
+  siklusJalan(selatan[0], selatan[1], selatan[2]);
+  siklusJalan(barat[0], barat[1], barat[2]);
+}
